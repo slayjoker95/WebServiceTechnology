@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/src/ConsoleApp/ConsoleApp.iml" filepath="$PROJECT_DIR$/src/ConsoleApp/ConsoleApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/J2EE/J2EE.iml" filepath="$PROJECT_DIR$/src/J2EE/J2EE.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Lab4.iml" filepath="$PROJECT_DIR$/Lab4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/src/standalone/standalone.iml" filepath="$PROJECT_DIR$/src/standalone/standalone.iml" />
+    </modules>
+  </component>
+</project>
