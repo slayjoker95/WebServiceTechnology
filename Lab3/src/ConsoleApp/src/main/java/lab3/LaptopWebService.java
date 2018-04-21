@@ -55,38 +55,6 @@ public interface LaptopWebService {
 
     /**
      * 
-     * @param id
-     * @return
-     *     returns lab3.ResultStatusOperation
-     * @throws BaseServiceException_Exception
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "deleteLaptop", targetNamespace = "http://lab3/", className = "lab3.DeleteLaptop")
-    @ResponseWrapper(localName = "deleteLaptopResponse", targetNamespace = "http://lab3/", className = "lab3.DeleteLaptopResponse")
-    @Action(input = "http://lab3/LaptopWebService/deleteLaptopRequest", output = "http://lab3/LaptopWebService/deleteLaptopResponse", fault = {
-        @FaultAction(className = BaseServiceException_Exception.class, value = "http://lab3/LaptopWebService/deleteLaptop/Fault/BaseServiceException")
-    })
-    public ResultStatusOperation deleteLaptop(
-        @WebParam(name = "id", targetNamespace = "")
-        Integer id)
-        throws BaseServiceException_Exception
-    ;
-
-    /**
-     * 
-     * @return
-     *     returns lab3.ResultStatusOperation
-     */
-    @WebMethod
-    @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "deleteAllLaptops", targetNamespace = "http://lab3/", className = "lab3.DeleteAllLaptops")
-    @ResponseWrapper(localName = "deleteAllLaptopsResponse", targetNamespace = "http://lab3/", className = "lab3.DeleteAllLaptopsResponse")
-    @Action(input = "http://lab3/LaptopWebService/deleteAllLaptopsRequest", output = "http://lab3/LaptopWebService/deleteAllLaptopsResponse")
-    public ResultStatusOperation deleteAllLaptops();
-
-    /**
-     * 
      * @return
      *     returns java.util.List<lab3.Laptop>
      */
@@ -103,18 +71,54 @@ public interface LaptopWebService {
      * @return
      *     returns lab3.ResultStatusOperation
      * @throws BaseServiceException_Exception
+     * @throws AuthException
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "insertLaptop", targetNamespace = "http://lab3/", className = "lab3.InsertLaptop")
-    @ResponseWrapper(localName = "insertLaptopResponse", targetNamespace = "http://lab3/", className = "lab3.InsertLaptopResponse")
-    @Action(input = "http://lab3/LaptopWebService/insertLaptopRequest", output = "http://lab3/LaptopWebService/insertLaptopResponse", fault = {
-        @FaultAction(className = BaseServiceException_Exception.class, value = "http://lab3/LaptopWebService/insertLaptop/Fault/BaseServiceException")
+    @RequestWrapper(localName = "updateLaptop", targetNamespace = "http://lab3/", className = "lab3.UpdateLaptop")
+    @ResponseWrapper(localName = "updateLaptopResponse", targetNamespace = "http://lab3/", className = "lab3.UpdateLaptopResponse")
+    @Action(input = "http://lab3/LaptopWebService/updateLaptopRequest", output = "http://lab3/LaptopWebService/updateLaptopResponse", fault = {
+        @FaultAction(className = BaseServiceException_Exception.class, value = "http://lab3/LaptopWebService/updateLaptop/Fault/BaseServiceException"),
+        @FaultAction(className = AuthException.class, value = "http://lab3/LaptopWebService/updateLaptop/Fault/AuthException")
     })
-    public ResultStatusOperation insertLaptop(
+    public ResultStatusOperation updateLaptop(
         @WebParam(name = "laptop", targetNamespace = "")
         Laptop laptop)
-        throws BaseServiceException_Exception
+        throws AuthException, BaseServiceException_Exception
+    ;
+
+    /**
+     * 
+     * @return
+     *     returns lab3.ResultStatusOperation
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "deleteAllLaptops", targetNamespace = "http://lab3/", className = "lab3.DeleteAllLaptops")
+    @ResponseWrapper(localName = "deleteAllLaptopsResponse", targetNamespace = "http://lab3/", className = "lab3.DeleteAllLaptopsResponse")
+    @Action(input = "http://lab3/LaptopWebService/deleteAllLaptopsRequest", output = "http://lab3/LaptopWebService/deleteAllLaptopsResponse")
+    public ResultStatusOperation deleteAllLaptops();
+
+    /**
+     * 
+     * @param id
+     * @return
+     *     returns lab3.ResultStatusOperation
+     * @throws BaseServiceException_Exception
+     * @throws AuthException
+     */
+    @WebMethod
+    @WebResult(targetNamespace = "")
+    @RequestWrapper(localName = "deleteLaptop", targetNamespace = "http://lab3/", className = "lab3.DeleteLaptop")
+    @ResponseWrapper(localName = "deleteLaptopResponse", targetNamespace = "http://lab3/", className = "lab3.DeleteLaptopResponse")
+    @Action(input = "http://lab3/LaptopWebService/deleteLaptopRequest", output = "http://lab3/LaptopWebService/deleteLaptopResponse", fault = {
+        @FaultAction(className = BaseServiceException_Exception.class, value = "http://lab3/LaptopWebService/deleteLaptop/Fault/BaseServiceException"),
+        @FaultAction(className = AuthException.class, value = "http://lab3/LaptopWebService/deleteLaptop/Fault/AuthException")
+    })
+    public ResultStatusOperation deleteLaptop(
+        @WebParam(name = "id", targetNamespace = "")
+        Integer id)
+        throws AuthException, BaseServiceException_Exception
     ;
 
     /**
@@ -123,18 +127,20 @@ public interface LaptopWebService {
      * @return
      *     returns lab3.ResultStatusOperation
      * @throws BaseServiceException_Exception
+     * @throws AuthException
      */
     @WebMethod
     @WebResult(targetNamespace = "")
-    @RequestWrapper(localName = "updateLaptop", targetNamespace = "http://lab3/", className = "lab3.UpdateLaptop")
-    @ResponseWrapper(localName = "updateLaptopResponse", targetNamespace = "http://lab3/", className = "lab3.UpdateLaptopResponse")
-    @Action(input = "http://lab3/LaptopWebService/updateLaptopRequest", output = "http://lab3/LaptopWebService/updateLaptopResponse", fault = {
-        @FaultAction(className = BaseServiceException_Exception.class, value = "http://lab3/LaptopWebService/updateLaptop/Fault/BaseServiceException")
+    @RequestWrapper(localName = "insertLaptop", targetNamespace = "http://lab3/", className = "lab3.InsertLaptop")
+    @ResponseWrapper(localName = "insertLaptopResponse", targetNamespace = "http://lab3/", className = "lab3.InsertLaptopResponse")
+    @Action(input = "http://lab3/LaptopWebService/insertLaptopRequest", output = "http://lab3/LaptopWebService/insertLaptopResponse", fault = {
+        @FaultAction(className = BaseServiceException_Exception.class, value = "http://lab3/LaptopWebService/insertLaptop/Fault/BaseServiceException"),
+        @FaultAction(className = AuthException.class, value = "http://lab3/LaptopWebService/insertLaptop/Fault/AuthException")
     })
-    public ResultStatusOperation updateLaptop(
+    public ResultStatusOperation insertLaptop(
         @WebParam(name = "laptop", targetNamespace = "")
         Laptop laptop)
-        throws BaseServiceException_Exception
+        throws AuthException, BaseServiceException_Exception
     ;
 
 }

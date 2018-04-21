@@ -22,4 +22,7 @@ public class ServiceExceptionFault {
         return fault;
     }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

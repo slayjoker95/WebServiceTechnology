@@ -10,32 +10,11 @@
 <message name="getLaptopsByFilterResponse">
 <part name="parameters" element="tns:getLaptopsByFilterResponse"></part>
 </message>
-<message name="deleteLaptop">
-<part name="parameters" element="tns:deleteLaptop"></part>
-</message>
-<message name="deleteLaptopResponse">
-<part name="parameters" element="tns:deleteLaptopResponse"></part>
-</message>
-<message name="BaseServiceException">
-<part name="fault" element="tns:BaseServiceException"></part>
-</message>
-<message name="deleteAllLaptops">
-<part name="parameters" element="tns:deleteAllLaptops"></part>
-</message>
-<message name="deleteAllLaptopsResponse">
-<part name="parameters" element="tns:deleteAllLaptopsResponse"></part>
-</message>
 <message name="getLaptops">
 <part name="parameters" element="tns:getLaptops"></part>
 </message>
 <message name="getLaptopsResponse">
 <part name="parameters" element="tns:getLaptopsResponse"></part>
-</message>
-<message name="insertLaptop">
-<part name="parameters" element="tns:insertLaptop"></part>
-</message>
-<message name="insertLaptopResponse">
-<part name="parameters" element="tns:insertLaptopResponse"></part>
 </message>
 <message name="updateLaptop">
 <part name="parameters" element="tns:updateLaptop"></part>
@@ -43,33 +22,60 @@
 <message name="updateLaptopResponse">
 <part name="parameters" element="tns:updateLaptopResponse"></part>
 </message>
+<message name="BaseServiceException">
+<part name="fault" element="tns:BaseServiceException"></part>
+</message>
+<message name="AuthException">
+<part name="fault" element="tns:AuthException"></part>
+</message>
+<message name="deleteAllLaptops">
+<part name="parameters" element="tns:deleteAllLaptops"></part>
+</message>
+<message name="deleteAllLaptopsResponse">
+<part name="parameters" element="tns:deleteAllLaptopsResponse"></part>
+</message>
+<message name="deleteLaptop">
+<part name="parameters" element="tns:deleteLaptop"></part>
+</message>
+<message name="deleteLaptopResponse">
+<part name="parameters" element="tns:deleteLaptopResponse"></part>
+</message>
+<message name="insertLaptop">
+<part name="parameters" element="tns:insertLaptop"></part>
+</message>
+<message name="insertLaptopResponse">
+<part name="parameters" element="tns:insertLaptopResponse"></part>
+</message>
 <portType name="LaptopWebService">
 <operation name="getLaptopsByFilter">
 <input wsam:Action="http://lab3/LaptopWebService/getLaptopsByFilterRequest" message="tns:getLaptopsByFilter"></input>
 <output wsam:Action="http://lab3/LaptopWebService/getLaptopsByFilterResponse" message="tns:getLaptopsByFilterResponse"></output>
 </operation>
-<operation name="deleteLaptop">
-<input wsam:Action="http://lab3/LaptopWebService/deleteLaptopRequest" message="tns:deleteLaptop"></input>
-<output wsam:Action="http://lab3/LaptopWebService/deleteLaptopResponse" message="tns:deleteLaptopResponse"></output>
-<fault message="tns:BaseServiceException" name="BaseServiceException" wsam:Action="http://lab3/LaptopWebService/deleteLaptop/Fault/BaseServiceException"></fault>
-</operation>
-<operation name="deleteAllLaptops">
-<input wsam:Action="http://lab3/LaptopWebService/deleteAllLaptopsRequest" message="tns:deleteAllLaptops"></input>
-<output wsam:Action="http://lab3/LaptopWebService/deleteAllLaptopsResponse" message="tns:deleteAllLaptopsResponse"></output>
-</operation>
 <operation name="getLaptops">
 <input wsam:Action="http://lab3/LaptopWebService/getLaptopsRequest" message="tns:getLaptops"></input>
 <output wsam:Action="http://lab3/LaptopWebService/getLaptopsResponse" message="tns:getLaptopsResponse"></output>
-</operation>
-<operation name="insertLaptop">
-<input wsam:Action="http://lab3/LaptopWebService/insertLaptopRequest" message="tns:insertLaptop"></input>
-<output wsam:Action="http://lab3/LaptopWebService/insertLaptopResponse" message="tns:insertLaptopResponse"></output>
-<fault message="tns:BaseServiceException" name="BaseServiceException" wsam:Action="http://lab3/LaptopWebService/insertLaptop/Fault/BaseServiceException"></fault>
 </operation>
 <operation name="updateLaptop">
 <input wsam:Action="http://lab3/LaptopWebService/updateLaptopRequest" message="tns:updateLaptop"></input>
 <output wsam:Action="http://lab3/LaptopWebService/updateLaptopResponse" message="tns:updateLaptopResponse"></output>
 <fault message="tns:BaseServiceException" name="BaseServiceException" wsam:Action="http://lab3/LaptopWebService/updateLaptop/Fault/BaseServiceException"></fault>
+<fault message="tns:AuthException" name="AuthException" wsam:Action="http://lab3/LaptopWebService/updateLaptop/Fault/AuthException"></fault>
+</operation>
+<operation name="deleteAllLaptops">
+<input wsam:Action="http://lab3/LaptopWebService/deleteAllLaptopsRequest" message="tns:deleteAllLaptops"></input>
+<output wsam:Action="http://lab3/LaptopWebService/deleteAllLaptopsResponse" message="tns:deleteAllLaptopsResponse"></output>
+</operation>
+<operation name="deleteLaptop">
+<input wsam:Action="http://lab3/LaptopWebService/deleteLaptopRequest" message="tns:deleteLaptop"></input>
+<output wsam:Action="http://lab3/LaptopWebService/deleteLaptopResponse" message="tns:deleteLaptopResponse"></output>
+<fault message="tns:BaseServiceException" name="BaseServiceException" wsam:Action="http://lab3/LaptopWebService/deleteLaptop/Fault/BaseServiceException"></fault>
+<fault message="tns:AuthException" name="AuthException" wsam:Action="http://lab3/LaptopWebService/deleteLaptop/Fault/AuthException"></fault>
+</operation>
+<operation name="insertLaptop">
+<input wsam:Action="http://lab3/LaptopWebService/insertLaptopRequest" message="tns:insertLaptop"></input>
+<output wsam:Action="http://lab3/LaptopWebService/insertLaptopResponse" message="tns:insertLaptopResponse"></output>
+<fault message="tns:BaseServiceException" name="BaseServiceException" wsam:Action="http://lab3/LaptopWebService/insertLaptop/Fault/BaseServiceException"></fault>
+<fault message="tns:AuthException" name="AuthException" wsam:Action="http://lab3/LaptopWebService/insertLaptop/Fault/AuthException"></fault>
 </operation>
 </portType>
 <binding name="LaptopWebServicePortBinding" type="tns:LaptopWebService">
@@ -83,7 +89,16 @@
 <soap:body use="literal"></soap:body>
 </output>
 </operation>
-<operation name="deleteLaptop">
+<operation name="getLaptops">
+<soap:operation soapAction=""></soap:operation>
+<input>
+<soap:body use="literal"></soap:body>
+</input>
+<output>
+<soap:body use="literal"></soap:body>
+</output>
+</operation>
+<operation name="updateLaptop">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal"></soap:body>
@@ -93,6 +108,9 @@
 </output>
 <fault name="BaseServiceException">
 <soap:fault name="BaseServiceException" use="literal"></soap:fault>
+</fault>
+<fault name="AuthException">
+<soap:fault name="AuthException" use="literal"></soap:fault>
 </fault>
 </operation>
 <operation name="deleteAllLaptops">
@@ -104,7 +122,7 @@
 <soap:body use="literal"></soap:body>
 </output>
 </operation>
-<operation name="getLaptops">
+<operation name="deleteLaptop">
 <soap:operation soapAction=""></soap:operation>
 <input>
 <soap:body use="literal"></soap:body>
@@ -112,6 +130,12 @@
 <output>
 <soap:body use="literal"></soap:body>
 </output>
+<fault name="BaseServiceException">
+<soap:fault name="BaseServiceException" use="literal"></soap:fault>
+</fault>
+<fault name="AuthException">
+<soap:fault name="AuthException" use="literal"></soap:fault>
+</fault>
 </operation>
 <operation name="insertLaptop">
 <soap:operation soapAction=""></soap:operation>
@@ -124,17 +148,8 @@
 <fault name="BaseServiceException">
 <soap:fault name="BaseServiceException" use="literal"></soap:fault>
 </fault>
-</operation>
-<operation name="updateLaptop">
-<soap:operation soapAction=""></soap:operation>
-<input>
-<soap:body use="literal"></soap:body>
-</input>
-<output>
-<soap:body use="literal"></soap:body>
-</output>
-<fault name="BaseServiceException">
-<soap:fault name="BaseServiceException" use="literal"></soap:fault>
+<fault name="AuthException">
+<soap:fault name="AuthException" use="literal"></soap:fault>
 </fault>
 </operation>
 </binding>

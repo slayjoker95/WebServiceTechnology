@@ -37,6 +37,7 @@ public class ObjectFactory {
     private final static QName _InsertLaptopResponse_QNAME = new QName("http://lab3/", "insertLaptopResponse");
     private final static QName _InsertLaptop_QNAME = new QName("http://lab3/", "insertLaptop");
     private final static QName _GetLaptopsResponse_QNAME = new QName("http://lab3/", "getLaptopsResponse");
+    private final static QName _AuthException_QNAME = new QName("http://lab3/", "AuthException");
     private final static QName _BaseServiceException_QNAME = new QName("http://lab3/", "BaseServiceException");
     private final static QName _DeleteAllLaptops_QNAME = new QName("http://lab3/", "deleteAllLaptops");
 
@@ -77,6 +78,14 @@ public class ObjectFactory {
      */
     public DeleteAllLaptops createDeleteAllLaptops() {
         return new DeleteAllLaptops();
+    }
+
+    /**
+     * Create an instance of {@link ServiceExceptionFault }
+     * 
+     */
+    public ServiceExceptionFault createServiceExceptionFault() {
+        return new ServiceExceptionFault();
     }
 
     /**
@@ -157,14 +166,6 @@ public class ObjectFactory {
      */
     public DeleteLaptopResponse createDeleteLaptopResponse() {
         return new DeleteLaptopResponse();
-    }
-
-    /**
-     * Create an instance of {@link ServiceExceptionFault }
-     * 
-     */
-    public ServiceExceptionFault createServiceExceptionFault() {
-        return new ServiceExceptionFault();
     }
 
     /**
@@ -290,6 +291,15 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://lab3/", name = "getLaptopsResponse")
     public JAXBElement<GetLaptopsResponse> createGetLaptopsResponse(GetLaptopsResponse value) {
         return new JAXBElement<GetLaptopsResponse>(_GetLaptopsResponse_QNAME, GetLaptopsResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link ServiceExceptionFault }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://lab3/", name = "AuthException")
+    public JAXBElement<ServiceExceptionFault> createAuthException(ServiceExceptionFault value) {
+        return new JAXBElement<ServiceExceptionFault>(_AuthException_QNAME, ServiceExceptionFault.class, null, value);
     }
 
     /**

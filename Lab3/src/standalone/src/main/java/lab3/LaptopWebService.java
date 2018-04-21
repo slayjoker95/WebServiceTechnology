@@ -1,17 +1,34 @@
 package lab3;
 
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+import lab3.SoapExceptions.AuthException;
 import lab3.SoapExceptions.BaseServiceException;
 import lab3.SoapExceptions.ServiceExceptionFault;
 import lab3.StatusOperation.ResultStatusOperation;
 import lab3.StatusOperation.StatusCrudOperation;
 
+import javax.annotation.Resource;
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
 import java.util.List;
+import java.util.Map;
+import java.util.StringTokenizer;
 
 @WebService(serviceName = "LaptopService")
 public class LaptopWebService {
+
+    private static final String AUTH_HEADER_KEY = "Authorization";
+    private static final String AUTH_HEADER_PREFIX = "Basic ";
+
+    private static final String USERNAME = "admin";
+    private static final String PASSWORD = "admin";
+
+    @Resource
+    private WebServiceContext webServiceContext;
+
     @WebMethod(operationName = "getLaptops")
     public List<Laptop> getLaptops(){
         DAL dal = new DAL(LaptopConnection.getConnection());
@@ -34,7 +51,14 @@ public class LaptopWebService {
 
 
     @WebMethod(operationName = "updateLaptop")
-    public ResultStatusOperation updateLaptop(@WebParam(name = "laptop") Laptop laptop) throws BaseServiceException{
+    public ResultStatusOperation updateLaptop(@WebParam(name = "laptop") Laptop laptop) throws BaseServiceException, AuthException {
+        MessageContext messageContext = webServiceContext.getMessageContext();
+        if (!isAuth(messageContext))
+        {
+            ServiceExceptionFault fault = ServiceExceptionFault.defaultInstance();
+            fault.setMessage("Authentication error");
+            throw new AuthException("Invalid login-password", fault);
+        }
         DAL dal = new DAL(LaptopConnection.getConnection());
         ResultStatusOperation res = dal.updateLaptop(laptop);
         switch (res.getStatus()){
@@ -47,9 +71,16 @@ public class LaptopWebService {
     }
 
     @WebMethod(operationName = "deleteLaptop")
-    public ResultStatusOperation deleteLaptop(@WebParam(name = "id") Integer id) throws BaseServiceException{
+    public ResultStatusOperation deleteLaptop(@WebParam(name = "id") Integer id) throws BaseServiceException, AuthException{
         if (id == null){
             throw new BaseServiceException("ID удаляемой записи не может быть равен null", new ServiceExceptionFault(""));
+        }
+        MessageContext messageContext = webServiceContext.getMessageContext();
+        if (!isAuth(messageContext))
+        {
+            ServiceExceptionFault fault = ServiceExceptionFault.defaultInstance();
+            fault.setMessage("Authentication error");
+            throw new AuthException("Invalid login-password", fault);
         }
         DAL dal = new DAL(LaptopConnection.getConnection());
         ResultStatusOperation res = dal.deleteLaptop(id);
@@ -63,7 +94,14 @@ public class LaptopWebService {
     }
 
     @WebMethod(operationName = "insertLaptop")
-    public ResultStatusOperation insertLaptop(@WebParam(name = "laptop") Laptop laptop) throws BaseServiceException{
+    public ResultStatusOperation insertLaptop(@WebParam(name = "laptop") Laptop laptop) throws BaseServiceException, AuthException{
+        MessageContext messageContext = webServiceContext.getMessageContext();
+        if (!isAuth(messageContext))
+        {
+            ServiceExceptionFault fault = ServiceExceptionFault.defaultInstance();
+            fault.setMessage("Authentication error");
+            throw new AuthException("Invalid login-password", fault);
+        }
         DAL dal = new DAL(LaptopConnection.getConnection());
         ResultStatusOperation res = dal.insertLaptop(laptop);
         if (res.getStatus() != StatusCrudOperation.InsertSuccess){
@@ -76,6 +114,27 @@ public class LaptopWebService {
     public ResultStatusOperation deleteAllLaptops(){
         DAL dal = new DAL(LaptopConnection.getConnection());
         return dal.deleteAllLaptops();
+    }
+
+    private boolean isAuth(MessageContext ctx) {
+        Map headers = (Map) ctx.get(MessageContext.HTTP_REQUEST_HEADERS);
+        if (!headers.containsKey(AUTH_HEADER_KEY)) {
+            return false;
+        }
+
+        List<String> authHeader = (List<String>) headers.get(AUTH_HEADER_KEY);
+        String authToken = authHeader.get(0);
+        if (authToken.isEmpty()) {
+            return false;
+        }
+
+        authToken = authToken.replaceFirst(AUTH_HEADER_PREFIX, "");
+        String decodedString = new String(Base64.decode(authToken));
+        StringTokenizer stringTokenizer = new StringTokenizer(decodedString, ":");
+        String username = stringTokenizer.nextToken();
+        String password = stringTokenizer.nextToken();
+
+        return username.equals(USERNAME) && password.equals(PASSWORD);
     }
 }
 

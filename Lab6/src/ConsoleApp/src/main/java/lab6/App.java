@@ -3,6 +3,7 @@ package lab6;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 import lab6.StatusOperation.ResultStatusOperation;
 import lab6.StatusOperation.StatusCrudOperation;
 
@@ -10,6 +11,9 @@ import javax.ws.rs.core.MediaType;
 import java.net.MalformedURLException;
 
 public class App {
+
+    private static final String USERNAME = "admin";
+    private static final String PASSWORD = "admin";
 
     private static void printHttpError(ClientResponse response){
         String printOutString = String.format("Error code: %s\nMessage: %s",
@@ -24,10 +28,11 @@ public class App {
         }
     }
 
-    private static void deleteLaptop(Client client, String URL, int id){
+    private static void deleteLaptop(Client client, String URL, int id, String auth){
         WebResource webResource = client.resource(URL + String.valueOf(id));
         ClientResponse response = webResource.type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", auth)
                 .delete(ClientResponse.class);
         if(response.getStatus() != ClientResponse.Status.OK.getStatusCode()){
             System.out.println("----Error delete: -----");
@@ -38,10 +43,11 @@ public class App {
         System.out.println(result.getMessage());
     }
 
-    private static void updateLaptop(Client client, String URL, Laptop laptop){
+    private static void updateLaptop(Client client, String URL, Laptop laptop, String auth){
         WebResource webResource = client.resource(URL);
         ClientResponse response = webResource.type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", auth)
                 .put(ClientResponse.class, laptop);
         if(response.getStatus() != ClientResponse.Status.OK.getStatusCode()){
             System.out.println("----Error update:----");
@@ -52,10 +58,11 @@ public class App {
         System.out.println(result.getMessage());
     }
 
-    private static int createLaptop(Client client, String URL, Laptop laptop){
+    private static int createLaptop(Client client, String URL, Laptop laptop, String auth){
         WebResource webResource = client.resource(URL);
         ClientResponse response = webResource.type(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
+                .header("Authorization", auth)
                 .post(ClientResponse.class, laptop);
         if(response.getStatus() != ClientResponse.Status.OK.getStatusCode()){
             System.out.println("----Error insert:----");
@@ -84,7 +91,7 @@ public class App {
         return result;
     }
 
-    private static void CrudOperationSample(Client client, String URL){
+    private static void CrudOperationSample(Client client, String URL, String auth){
         System.out.println("-----Пытаемся получить запись с id=10000 (такой записи не существует)------");
         Laptop laptop = getLaptop(client, URL, 10000);
         printLaptop(laptop);
@@ -97,14 +104,15 @@ public class App {
         laptop.setRAM("50000 Mb");
         //id изменяем на 0 (с таким идентификатором записей не может быть
         laptop.setId(0);
-        updateLaptop(client, URL, laptop);
+        updateLaptop(client, URL, laptop, auth);
         //пытаемся удалить запись с id = 0
-        deleteLaptop(client, URL, 0);
+        deleteLaptop(client, URL, 0, auth);
     }
 
     public static void main(String[] args) throws MalformedURLException {
+        String authToken = "Basic " + Base64.encodeBytes((USERNAME + ":" + PASSWORD).getBytes());
         Client client = Client.create();
         String url = "http://localhost:8080/laptops/";
-        CrudOperationSample(client, url);
+        CrudOperationSample(client, url, authToken);
     }
 }
